@@ -1,11 +1,13 @@
 const express = require("express");
 
+const { checkIsAuth } = require("../utils/checkIsAuth");
+
 const productRouter = express.Router();
 
 const {
   getOne,
   getAll,
-  createe,
+  create,
   update,
   del,
 } = require("../controllers/productController");
@@ -30,9 +32,9 @@ productRouter
   })
 
   .post("/", async (req, res) => {
-    await createe(req.body);
+    await create(req.body);
 
-    await res.status(201).json("Product added.");
+    res.status(201).json("Product added.");
   })
 
   .put("/:id", async (req, res) => {
