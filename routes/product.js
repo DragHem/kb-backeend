@@ -2,11 +2,17 @@ const express = require("express");
 
 const productRouter = express.Router();
 
-const Product = require("../model/product");
+const {
+  getOne,
+  getAll,
+  create,
+  update,
+  del,
+} = require("../controllers/productController");
 
 productRouter
   .get("/", async (req, res) => {
-    const products = await Product.find();
+    const products = await getAll();
 
     res.json(products);
   })
@@ -14,7 +20,7 @@ productRouter
   .get("/:id", async (req, res) => {
     const { id } = req.params;
 
-    const product = await Product.findOne({ _id: id });
+    const product = await getOne(id);
 
     if (!product) {
       return res.json("Nie ma");
@@ -24,54 +30,26 @@ productRouter
   })
 
   .post("/", async (req, res) => {
-    const { name, price, count, desc, image_url, category } = req.body;
+    await create(req.body);
 
-    await Product.create({
-      name,
-      price,
-      count,
-      desc,
-      image_url,
-      category,
-    });
+    await res.status(201).json("Product added.");
+  })
 
-    res.status(201).json("Product added.");
+  .put("/:id", async (req, res) => {
+    const { id } = req.params;
+
+    await update(id, req.body);
+
+    res.end();
+  })
+
+  .delete("/:id", async (req, res) => {
+    const { id } = req.params;
+
+    await del(id);
+
+    res.end();
   });
-//
-//   .put("/:id", (req, res) => {
-//     const { id } = req.params;
-//     const { name } = req.body;
-//
-//     db.update(id, req.body);
-//     res.render("client/modified", {
-//       name,
-//       id,
-//     });
-//   })
-//
-//   .delete("/:id", (req, res) => {
-//     const { id } = req.params;
-//
-//     db.delete(id);
-//     res.render("client/deleted");
-//   })
-//
-//   .get("/form/add", (req, res) => {
-//     res.render("client/forms/add");
-//   })
-//
-//   .get("/form/edit/:id", (req, res) => {
-//     const { id } = req.params;
-//     const client = db.getOne(id);
-//
-//     if (!client) {
-//       throw new NotFoundError();
-//     }
-//
-//     res.render("client/forms/edit", {
-//       client,
-//     });
-//   });
 
 module.exports = {
   productRouter,
