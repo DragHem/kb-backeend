@@ -8,7 +8,7 @@ const getAll = () => {
   return Product.find();
 };
 
-const create = (body) => {
+const createe = (body) => {
   const { name, price, count, desc, image_url, category } = body;
 
   Product.create({
@@ -35,6 +35,7 @@ const update = async (id, body) => {
 
   await product.save();
 };
+
 const del = async (id) => {
   const product = await Product.findOne({ _id: id });
 
@@ -44,7 +45,7 @@ const del = async (id) => {
 module.exports = {
   getOne,
   getAll,
-  create,
+  createe,
   update,
   del,
 };

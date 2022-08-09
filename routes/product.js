@@ -5,7 +5,7 @@ const productRouter = express.Router();
 const {
   getOne,
   getAll,
-  create,
+  createe,
   update,
   del,
 } = require("../controllers/productController");
@@ -30,7 +30,7 @@ productRouter
   })
 
   .post("/", async (req, res) => {
-    await create(req.body);
+    await createe(req.body);
 
     await res.status(201).json("Product added.");
   })
@@ -40,7 +40,7 @@ productRouter
 
     await update(id, req.body);
 
-    res.end();
+    res.json("Product updated");
   })
 
   .delete("/:id", async (req, res) => {
@@ -48,7 +48,7 @@ productRouter
 
     await del(id);
 
-    res.end();
+    res.json("Product deleted.");
   });
 
 module.exports = {

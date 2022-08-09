@@ -18,33 +18,11 @@ mongoose.connect(
   }
 );
 
-//Models
-const Product = require("./model/product");
 const { productRouter } = require("./routes/product");
 
-app.use(
-  cors({
-    origin: `${process.env.HOST}:${process.env.PORT}`,
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname + "/static"));
-
-// app.get("/", async (req, res) => {
-//   const newProduct = new Product({
-//     name: "MacBook Air",
-//     price: "7999",
-//     count: 100,
-//     desc: "Fajny taki szypki",
-//     category: ["Laptop"],
-//   });
-//
-//   await newProduct.save();
-//
-//   console.log(newProduct);
-//   res.send("Dodano");
-// });
 
 app.use("/product", productRouter);
 
