@@ -1,15 +1,20 @@
 require("dotenv").config();
 
-const express = require("express");
 const mongoose = require("mongoose");
+const express = require("express");
 const cors = require("cors");
 const passport = require("passport");
-const session = require("express-session");
-const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+
+const csrf = require("csurf");
+const { limiter } = require("./utils/rateLimiter");
 
 const { productRouter } = require("./routes/product");
 const { authRouter } = require("./routes/auth");
+const { userRouter } = require("./routes/user");
+const { reviewModel } = require("./model/review.model");
+const { reviewRouter } = require("./routes/review");
 
 const app = express();
 
@@ -21,28 +26,41 @@ mongoose.connect(
     useUnifiedTopology: true,
   },
   () => {
-    console.log("Mongoose Is Connected");
+    console.info("Mongoose Is Connected");
   }
 );
 
+app.use((req, res, next) => {
+  res.append("Access-Control-Allow-Origin", ["http://chemiapolska.local:3000"]);
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 //Middleware
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: `http;//${process.env.HOST}`,
+    origin: "http://chemiapolska.local:3000",
     credentials: true,
   })
 );
 app.use(
   session({
-    secret: process.env.SESION_SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    cookie: {
+      // domain: "localhost:3000",
+      // sameSite: false,
+      httpOnly: false,
+      // secure: true,
+    },
   })
 );
-app.use(cookieParser("secretCode"));
-app.use(csrf({ cookie: true }));
+
+// app.use(cookieParser("secretCode"));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -50,10 +68,12 @@ require("./passport-config")(passport);
 
 //Routes
 app.use("/", authRouter);
+app.use("/user", userRouter);
 app.use("/product", productRouter);
+app.use("/review", reviewRouter);
 
 app.listen(process.env.PORT, process.env.HOST, () =>
-  console.log(
+  console.info(
     `Express listening on http://${process.env.HOST}:${process.env.PORT}`
   )
 );

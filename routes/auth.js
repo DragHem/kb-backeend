@@ -4,26 +4,24 @@ const passport = require("passport");
 
 const authRouter = express.Router();
 
-const User = require("../model/user");
-
-const { checkIsAuth } = require("../utils/checkIsAuth");
+const User = require("../model/user.model");
 
 authRouter
   .post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) throw err;
-      if (!user) res.json("No User Exists");
+      if (!user) res.json(info.message);
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          res.json("Successfully Authenticated");
+          res.json(info.message);
         });
       }
     })(req, res, next);
   })
 
-  .post("/register", async (req, res) => {
-    const { email, name, password, username } = req.body;
+  .post("/register", (req, res) => {
+    const { email, name, password } = req.body;
 
     User.findOne({ email: email }, async (err, user) => {
       if (err) throw err;
@@ -35,7 +33,6 @@ authRouter
           email,
           name,
           password: hashedPassword,
-          username,
         });
 
         res.json("User Created successfully.");
@@ -50,11 +47,8 @@ authRouter
       }
       res.json("Logged out.");
     });
-  })
-
-  .get("/user", checkIsAuth, (req, res) => {
-    res.json(req.user);
   });
+
 module.exports = {
   authRouter,
 };
