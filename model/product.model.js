@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const { reviewSchema: review } = require("./review.model");
+const { reviewSchema } = require("./review.model");
 
 const productModel = new Schema({
   name: { type: String, required: true },
@@ -9,7 +9,7 @@ const productModel = new Schema({
   desc: String,
   image_url: [String],
   category: { type: [String], index: true },
-  reviews: [review],
+  reviews: [reviewSchema],
   userId: String,
 });
 
