@@ -1,9 +1,7 @@
-const { reviewModel } = require("../model/review.model");
-const { productModel: Product } = require("../model/product.model");
-const { commentModel } = require("../model/comment.model");
+const Product = require("../model/product.model");
 
 const addReview = (text, grade, id, userName) => {
-  const review = new reviewModel({ text, grade, userName });
+  const review = { text, grade, userName };
   Product.findOne({ _id: id }, (err, product) => {
     if (err) throw err;
     if (!product) return "Product not found.";
@@ -14,7 +12,7 @@ const addReview = (text, grade, id, userName) => {
 };
 
 const addCommentToReview = (text, productId, reviewId, userName) => {
-  const comment = new commentModel({ text, userName });
+  const comment = { text, userName };
   Product.findOne({ _id: productId }, (err, product) => {
     if (err) throw err;
     if (!product) return "Product not found.";

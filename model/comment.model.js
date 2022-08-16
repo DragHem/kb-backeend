@@ -1,12 +1,11 @@
-const { Schema, model } = require("mongoose");
+const { Schema } = require("mongoose");
 
-const commentModel = new Schema({
+const commentSchema = new Schema({
   date: { type: Date, default: Date.now, required: true },
   text: { type: String, required: true },
   userName: String,
 });
 
 module.exports = {
-  commentModel: model("Comment", commentModel),
-  commentSchema: commentModel,
+  commentSchema,
 };

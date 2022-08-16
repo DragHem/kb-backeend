@@ -13,7 +13,4 @@ const productModel = new Schema({
   userId: String,
 });
 
-module.exports = {
-  productModel: model("Product", productModel),
-  productSchema: productModel,
-};
+module.exports = model("Product", productModel);

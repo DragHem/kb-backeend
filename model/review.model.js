@@ -1,8 +1,8 @@
-const { Schema, model } = require("mongoose");
+const { Schema } = require("mongoose");
 
 const { commentSchema } = require("./comment.model");
 
-const reviewModel = new Schema({
+const reviewSchema = new Schema({
   date: { type: Date, default: Date.now, required: true },
   text: { type: String, required: true },
   grade: { type: Number, min: 1, max: 5 },
@@ -11,6 +11,5 @@ const reviewModel = new Schema({
 });
 
 module.exports = {
-  reviewModel: model("Review", reviewModel),
-  reviewSchema: reviewModel,
+  reviewSchema,
 };

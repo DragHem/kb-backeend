@@ -1,7 +1,7 @@
 const User = require("../model/user.model");
 const bcrypt = require("bcrypt");
 
-const { productModel: Product } = require("../model/product.model");
+const Product = require("../model/product.model");
 
 const getUser = (user) => {
   if (user) return { name: user.name, email: user.email };
@@ -23,7 +23,7 @@ const editUserInfo = (user, body) => {
 
 const getUserProduct = async (user) => {
   const products = await Product.find({
-    userId: "62f637f3717cf5c8be589825",
+    userId: user._id,
   }).exec();
   if (user) return products;
   else throw new Error();
