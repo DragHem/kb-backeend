@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 const Product = require("../model/product.model");
 
 const getUser = (user) => {
-  if (user) return { name: user.name, email: user.email };
+  if (user)
+    return { name: user.name, email: user.email, wishlist: user.wishlist };
   else throw new Error();
 };
 
