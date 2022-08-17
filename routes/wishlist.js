@@ -7,6 +7,8 @@ const wishlistRouter = express.Router();
 
 wishlistRouter
   .get("/", async (req, res) => {
+    console.log(req.cookies);
+
     if (!req.user) return res.json("Tak");
 
     const wishlistItems = await Product.find({

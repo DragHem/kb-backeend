@@ -2,10 +2,16 @@ const User = require("../model/user.model");
 const bcrypt = require("bcrypt");
 
 const Product = require("../model/product.model");
+const { upload } = require("../utils/multer");
 
 const getUser = (user) => {
   if (user)
-    return { name: user.name, email: user.email, wishlist: user.wishlist };
+    return {
+      name: user.name,
+      email: user.email,
+      wishlist: user.wishlist,
+      avatar: user.avatar,
+    };
   else throw new Error();
 };
 
@@ -30,8 +36,25 @@ const getUserProduct = async (user) => {
   else throw new Error();
 };
 
+const setAvatar = async (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      throw new Error(err.message);
+    }
+
+    User.findOne({ _id: req.user._id }, (err, user) => {
+      if (err) throw err;
+      if (!user) return "User not found";
+
+      user.avatar = `avatars/${req.file.filename}`;
+      user.save();
+    });
+  });
+};
+
 module.exports = {
   getUser,
   editUserInfo,
   getUserProduct,
+  setAvatar,
 };

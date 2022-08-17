@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+const User = require("./model/user.model");
+
+const path = require("path");
+
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -31,12 +35,14 @@ mongoose.connect(
 );
 
 //Middleware
+app.use(express.static("public/"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://chemiapolska.local:3000",
-    credentials: true,
+    // origin: "http://chemiapolska.local:3000",
+    // credentials: true,
   })
 );
 app.use(
@@ -52,8 +58,7 @@ app.use(
     },
   })
 );
-
-// app.use(cookieParser("secretCode"));
+app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -61,10 +66,23 @@ require("./passport-config")(passport);
 
 //Routes
 app.use("/", authRouter);
+// app.use(
+//   csrf({
+//     cookie: {
+//       key: "_csrf",
+//       path: "/",
+//       httpOnly: true,
+//       maxAge: 3600, // 1-hour
+//     },
+//   })
+// );
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/review", reviewRouter);
 app.use("/wishlist", wishlistRouter);
+
+//Upload Image
+app.post("/image", (req, res) => {});
 
 app.listen(process.env.PORT, process.env.HOST, () =>
   console.info(

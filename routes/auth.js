@@ -33,6 +33,7 @@ authRouter
           email,
           name,
           password: hashedPassword,
+          avatar: "avatars/default.png",
         });
 
         res.json("User Created successfully.");

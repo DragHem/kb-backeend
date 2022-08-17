@@ -11,6 +11,7 @@ const productModel = new Schema({
   category: { type: [String], index: true },
   reviews: [reviewSchema],
   userId: String,
+  timesBought: Number,
 });
 
 module.exports = model("Product", productModel);

@@ -8,6 +8,7 @@ const {
   getUser,
   editUserInfo,
   getUserProduct,
+  setAvatar,
 } = require("../controllers/user.controller");
 
 userRouter
@@ -40,6 +41,17 @@ userRouter
     } catch (e) {
       res.status(404).json("Products not found");
     }
+  })
+
+  .post("/avatar", checkIsAuth, async (req, res) => {
+    try {
+      await setAvatar(req, res);
+      res.json("Avatar updated successfully.");
+    } catch (e) {
+      res.json(e.message);
+    }
+
+    res.end();
   });
 
 module.exports = {

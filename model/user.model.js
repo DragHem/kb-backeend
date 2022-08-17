@@ -10,6 +10,7 @@ const userModel = new Schema({
   name: { type: String, required: true },
   password: { type: String, required: true },
   wishlist: [String],
+  avatar: String,
 });
 
 module.exports = model("User", userModel);
