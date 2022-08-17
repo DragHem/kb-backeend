@@ -11,7 +11,7 @@ const { productRouter } = require("./routes/product");
 const { authRouter } = require("./routes/auth");
 const { userRouter } = require("./routes/user");
 const { reviewRouter } = require("./routes/review");
-const { wishlistRouter } = require("./routes/wishList");
+const { wishlistRouter } = require("./routes/wishlist");
 
 const app = express();
 
