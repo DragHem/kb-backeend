@@ -12,7 +12,7 @@ const {
 } = require("../controllers/user.controller");
 
 userRouter
-  .get("/", checkIsAuth, (req, res) => {
+  .get("/", (req, res) => {
     const { user } = req;
     try {
       res.json(getUser(user));

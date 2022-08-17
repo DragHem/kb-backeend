@@ -2,12 +2,14 @@ const express = require("express");
 
 const reviewRouter = express.Router();
 
+const { checkIsAuth } = require("../utils/checkIsAuth");
+
 const {
   addReview,
   addCommentToReview,
 } = require("../controllers/review.controller");
 
-reviewRouter.post("/", async (req, res) => {
+reviewRouter.post("/", checkIsAuth, async (req, res) => {
   const { text, grade, id } = req.body;
   const { name } = req.user;
 
@@ -19,7 +21,7 @@ reviewRouter.post("/", async (req, res) => {
   }
 });
 
-reviewRouter.post("/addcomment", (req, res) => {
+reviewRouter.post("/addcomment", checkIsAuth, (req, res) => {
   const { text, productId, reviewId } = req.body;
   const { name } = req.user;
 

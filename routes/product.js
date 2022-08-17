@@ -35,7 +35,7 @@ productRouter
     }
   })
 
-  .post("/", async (req, res) => {
+  .post("/", checkIsAuth, async (req, res) => {
     try {
       await create(req.body, req.user);
 
@@ -45,7 +45,7 @@ productRouter
     }
   })
 
-  .put("/:id", async (req, res) => {
+  .put("/:id", checkIsAuth, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -56,7 +56,7 @@ productRouter
     }
   })
 
-  .delete("/:id", async (req, res) => {
+  .delete("/:id", checkIsAuth, async (req, res) => {
     const { id } = req.params;
 
     try {

@@ -3,10 +3,12 @@ const express = require("express");
 const User = require("../model/user.model");
 const Product = require("../model/product.model");
 
+const { checkIsAuth } = require("../utils/checkIsAuth");
+
 const wishlistRouter = express.Router();
 
 wishlistRouter
-  .get("/", async (req, res) => {
+  .get("/", checkIsAuth, async (req, res) => {
     console.log(req.cookies);
 
     if (!req.user) return res.json("Tak");
@@ -18,7 +20,7 @@ wishlistRouter
     res.json(wishlistItems);
   })
 
-  .post("/", async (req, res) => {
+  .post("/", checkIsAuth, async (req, res) => {
     const { productId } = req.body;
     const { _id } = req.user;
 
@@ -35,7 +37,7 @@ wishlistRouter
     });
   })
 
-  .delete("/:id", async (req, res) => {
+  .delete("/:id", checkIsAuth, async (req, res) => {
     const { _id } = req.user;
     const { id: productId } = req.params;
 
