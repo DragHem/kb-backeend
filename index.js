@@ -62,7 +62,7 @@ app.use("/wishlist", wishlistRouter);
 //Upload Image
 app.post("/image", (req, res) => {});
 
-app.listen(process.env.PORT, process.env.HOST, () =>
+app.listen(process.env.PORT, () =>
   console.info(
     `Express listening on http://${process.env.HOST}:${process.env.PORT}`
   )
