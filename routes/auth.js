@@ -14,7 +14,7 @@ authRouter
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          res.json(info.message);
+          res.json(info.message).redirect("/");
         });
       }
     })(req, res, next);
