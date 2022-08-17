@@ -3,7 +3,7 @@ const checkIsAuth = (req, res, next) => {
     return next();
   }
 
-  res.json("U have to login first.");
+  res.status(401).json("U have to login first.");
 };
 
 const checkIsNotAuth = (req, res, next) => {
