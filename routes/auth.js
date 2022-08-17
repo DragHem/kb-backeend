@@ -14,7 +14,8 @@ authRouter
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          res.json(info.message);
+          res.redirect("https://localhost:3000/");
+          //.json(info.message);
         });
       }
     })(req, res, next);
