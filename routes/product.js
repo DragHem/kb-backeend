@@ -17,7 +17,7 @@ productRouter
     try {
       const products = await getAll();
 
-      res.status(302).json(products);
+      res.status(200).json(products);
     } catch (e) {
       res.status(404).json("Products not found.");
     }
@@ -29,7 +29,7 @@ productRouter
     try {
       const product = await getOne(id);
 
-      res.status(302).json(product);
+      res.status(200).json(product);
     } catch (e) {
       res.status(404).json("Product not found.");
     }

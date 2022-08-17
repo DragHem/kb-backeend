@@ -25,7 +25,7 @@ authRouter
 
     User.findOne({ email: email }, async (err, user) => {
       if (err) throw err;
-      if (user) res.json("User Already Exists");
+      if (user) res.status(401).json("User Already Exists");
       if (!user) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
