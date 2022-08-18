@@ -39,17 +39,15 @@ app.use(
         credentials: true,
     })
 );
-app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
-        resave: false,
+        resave: true,
         saveUninitialized: true,
-        cookie: { secure: true, domain: 'http://localhost:3000' },
-        name: 'kbs',
-        rolling: true,
+        cookie: { secure: true },
     })
 );
+app.use(cookieParser(process.env.SESSION_SECRET));
 
 app.use(passport.initialize());
 app.use(passport.session());
