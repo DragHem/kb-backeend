@@ -5,7 +5,7 @@ const Product = require('../model/product.model');
 const { upload } = require('../utils/multerAvatar');
 
 const getUser = (user) => {
-    if (user)
+    if (user) 
         return {
             name: user.name,
             email: user.email,

@@ -12,6 +12,7 @@ const { authRouter } = require('./routes/auth');
 const { userRouter } = require('./routes/user');
 const { reviewRouter } = require('./routes/review');
 const { wishlistRouter } = require('./routes/wishlist');
+const {discountRouter} = require('./routes/discount');
 
 const app = express();
 
@@ -41,9 +42,11 @@ app.use(
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
-        resave: true,
+        resave: false,
         saveUninitialized: true,
-        cookie: { secure: true },
+        cookie: { secure: true, httpOnly: true },
+        name: 'kbs',
+        rolling: true,
     })
 );
 app.use(cookieParser(process.env.SESSION_SECRET));
@@ -58,6 +61,7 @@ app.use('/user', userRouter);
 app.use('/product', productRouter);
 app.use('/review', reviewRouter);
 app.use('/wishlist', wishlistRouter);
+app.use('/codes', discountRouter);
 
 app.listen(process.env.PORT, () =>
     console.info(
