@@ -39,6 +39,7 @@ app.use(
         credentials: true,
     })
 );
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -49,7 +50,6 @@ app.use(
         rolling: true,
     })
 );
-app.use(cookieParser(process.env.SESSION_SECRET));
 
 app.use(passport.initialize());
 app.use(passport.session());
