@@ -1,65 +1,79 @@
-const Product = require("../model/product.model");
+const Product = require('../model/product.model');
+const { upload } = require('../utils/multerAlbum');
 
 const getAll = () => Product.find();
 
 const getOne = (id) => Product.findOne({ _id: id });
 
-const create = async (body, user) => {
-  const { name, price, count, desc, image_url, category } = body;
+const create = async (req, res) => {
+    const productPhotos = [];
 
-  try {
-    await Product.create({
-      name,
-      price,
-      count,
-      desc,
-      image_url,
-      category,
-      userId: user._id,
-    });
-  } catch (e) {
-    throw e;
-  }
+    try {
+        upload(req, res, async (err) => {
+            if (err) {
+                throw new Error(err.message);
+            }
+
+            const { name, price, count, desc, image_url, category } = req.body;
+
+            for (let i = 0; i < req.files.length; i++) {
+                productPhotos.push(req.files[i].path.toString());
+            }
+
+            await Product.create({
+                name,
+                price,
+                count,
+                desc,
+                image_url,
+                category,
+                userId: req.user._id,
+                images_url: productPhotos,
+            });
+        });
+    } catch (e) {
+        throw e;
+    }
 };
 
 const update = async (id, body) => {
-  const { name, price, count, desc, image_url, category, reviews } = body;
-  try {
-    Product.findOne({ _id: id }, (err, product) => {
-      if (err) throw err;
-      if (!product) return "Product not found";
+    const { name, price, count, desc, image_url, category, reviews } = body;
+    try {
+        Product.findOne({ _id: id }, (err, product) => {
+            if (err) throw err;
+            if (!product) return 'Product not found';
 
-      product.name = name ? name : product.name;
-      product.price = price ? price : product.price;
-      product.count = count ? count : product.count;
-      product.desc = desc ? desc : product.desc;
-      product.image_url = image_url ? image_url : product.image_url;
-      product.category = category ? category : product.category;
-      product.reviews = reviews ? reviews : product.reviews;
-      product.save();
-    });
-  } catch (e) {
-    throw e;
-  }
+            product.name = name ? name : product.name;
+            product.price = price ? price : product.price;
+            product.count = count ? count : product.count;
+            product.desc = desc ? desc : product.desc;
+            product.image_url = image_url ? image_url : product.image_url;
+            product.category = category ? category : product.category;
+            product.reviews = reviews ? reviews : product.reviews;
+            product.save();
+        });
+    } catch (e) {
+        throw e;
+    }
 };
 
 const del = (id) => {
-  try {
-    Product.findOne({ _id: id }, (err, product) => {
-      if (err) throw err;
-      if (!product) return "No such product.";
+    try {
+        Product.findOne({ _id: id }, (err, product) => {
+            if (err) throw err;
+            if (!product) return 'No such product.';
 
-      product.remove();
-    });
-  } catch (e) {
-    throw e;
-  }
+            product.remove();
+        });
+    } catch (e) {
+        throw e;
+    }
 };
 
 module.exports = {
-  getOne,
-  getAll,
-  create,
-  update,
-  del,
+    getOne,
+    getAll,
+    create,
+    update,
+    del,
 };
