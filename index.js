@@ -44,9 +44,9 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: true, httpOnly: true },
-        // name: 'kbs',
-        // rolling: true,
+        cookie: { secure: true },
+        name: 'kbs',
+        rolling: true,
     })
 );
 app.use(cookieParser(process.env.SESSION_SECRET));
