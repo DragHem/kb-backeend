@@ -12,7 +12,7 @@ const {
 reviewRouter.post('/', checkIsAuth, async (req, res) => {
     const { text, grade, id } = req.body;
     const { name } = req.user;
-
+    console.log(req.user);
     try {
         addReview(text, grade, id, name);
         res.json('Review added');

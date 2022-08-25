@@ -12,7 +12,7 @@ const { authRouter } = require('./routes/auth');
 const { userRouter } = require('./routes/user');
 const { reviewRouter } = require('./routes/review');
 const { wishlistRouter } = require('./routes/wishlist');
-const {discountRouter} = require('./routes/discount');
+const { discountRouter } = require('./routes/discount');
 
 const app = express();
 
@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+    // origin: 'http://localhost:3000',
         credentials: true,
     })
 );
@@ -44,7 +44,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: true,
         saveUninitialized: true,
-        cookie: { secure: false },
+        cookie: { secure: false, sameSite: 'none' },
     })
 );
 app.use(cookieParser(process.env.SESSION_SECRET));
