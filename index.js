@@ -44,7 +44,7 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: true,
         saveUninitialized: true,
-        cookie: { secure: true, sameSite: false },
+        cookie: { secure: false, sameSite: false },
     })
 );
 app.use(cookieParser(process.env.SESSION_SECRET));
